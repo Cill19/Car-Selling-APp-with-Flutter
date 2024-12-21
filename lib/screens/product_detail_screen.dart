@@ -1,5 +1,5 @@
+import 'package:carselling/provider/product_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:carselling/models/product.dart';
 import 'package:carselling/theme.dart';
 
 class ProductDetailScreen extends StatelessWidget {

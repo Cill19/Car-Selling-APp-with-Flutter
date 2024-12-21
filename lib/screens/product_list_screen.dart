@@ -1,6 +1,7 @@
+import 'package:carselling/provider/product_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:carselling/theme.dart';
-import 'package:carselling/models/product.dart';
 import 'package:carselling/screens/product_detail_screen.dart';
 
 class ProductListScreen extends StatelessWidget {
@@ -8,67 +9,10 @@ class ProductListScreen extends StatelessWidget {
 
   ProductListScreen({required this.isAdmin});
 
-  // Ubah List<Map<String, String>> menjadi List<Product>
-  final List<Product> products = [
-    {
-      "name": "Tesla Model S",
-      "description": "Electric luxury sedan.",
-      "price": "\$89,990",
-      "image": "assets/mobil1.png"
-    },
-    {
-      "name": "Toyota Camry",
-      "description": "Reliable and efficient sedan.",
-      "price": "\$24,970",
-      "image": "assets/mobil1.png"
-    },
-    {
-      "name": "Tesla Model S",
-      "description": "Electric luxury sedan.",
-      "price": "\$89,990",
-      "image": "assets/mobil1.png"
-    },
-    {
-      "name": "Toyota Camry",
-      "description": "Reliable and efficient sedan.",
-      "price": "\$24,970",
-      "image": "assets/mobil1.png"
-    },
-    {
-      "name": "Tesla Model S",
-      "description": "Electric luxury sedan.",
-      "price": "\$89,990",
-      "image": "assets/mobil1.png"
-    },
-    {
-      "name": "Toyota Camry",
-      "description": "Reliable and efficient sedan.",
-      "price": "\$24,970",
-      "image": "assets/mobil1.png"
-    },
-    {
-      "name": "Tesla Model S",
-      "description": "Electric luxury sedan.",
-      "price": "\$89,990",
-      "image": "assets/mobil1.png"
-    },
-    {
-      "name": "Toyota Camry",
-      "description": "Reliable and efficient sedan.",
-      "price": "\$24,970",
-      "image": "assets/mobil1.png"
-    },
-  ].map((product) {
-    return Product(
-      name: product['name']!,
-      description: product['description']!,
-      price: product['price']!,
-      image: product['image']!,
-    );
-  }).toList();
-
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -91,9 +35,9 @@ class ProductListScreen extends StatelessWidget {
               mainAxisSpacing: 10,
               childAspectRatio: 0.75,
             ),
-            itemCount: products.length,
+            itemCount: productProvider.products.length,
             itemBuilder: (context, index) {
-              final product = products[index];
+              final product = productProvider.products[index];
               return Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
@@ -135,7 +79,7 @@ class ProductListScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        product.price,
+                        '\$${product.price.toStringAsFixed(2)}',
                         style: poppinsTextStyle.copyWith(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -145,32 +89,28 @@ class ProductListScreen extends StatelessWidget {
                       const Spacer(),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: SizedBox(
-                          width: 160,
-                          height: 30,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProductDetailScreen(product: product),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ProductDetailScreen(product: product),
                               ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Text(
-                              'View Details',
-                              style: poppinsTextStyle.copyWith(
-                                fontSize: 10,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          ),
+                          child: Text(
+                            'View Details',
+                            style: poppinsTextStyle.copyWith(
+                              fontSize: 12,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
