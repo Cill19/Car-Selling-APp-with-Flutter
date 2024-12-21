@@ -1,3 +1,5 @@
+import 'package:carselling/state_util.dart';
+import 'package:carselling/core.dart';
 import 'package:carselling/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carselling/screens/main_screen.dart';
@@ -12,6 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Cars Selling App',
+      navigatorKey: Get.navigatorKey,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
