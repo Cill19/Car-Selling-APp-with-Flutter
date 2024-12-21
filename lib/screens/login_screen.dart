@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:carselling/screens/main_screen.dart'; // Import MainScreen
+import 'package:carselling/screens/admin_home_screen.dart'; // Import AdminHomeScreen
 
 class LoginScreen extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +38,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 40),
               // Email TextField
               TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   hintText: 'Enter your email',
                   labelText: 'Email',
@@ -46,6 +51,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 20),
               // Password TextField
               TextField(
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'Enter your password',
@@ -62,11 +68,40 @@ class LoginScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigasi ke MainScreen setelah login
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => MainScreen()),
-                    );
+                    String email = emailController.text.trim();
+                    String password = passwordController.text.trim();
+
+                    if (email.isEmpty || password.isEmpty) {
+                      // Tampilkan pesan jika email atau password kosong
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Email and Password cannot be empty!',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    } else if (email == 'admin' && password == 'admin') {
+                      // Jika username dan password admin, navigasi ke AdminHomeScreen
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AdminHomeScreen(),
+                        ),
+                      );
+                    } else {
+                      // Navigasi ke MainScreen jika bukan admin
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MainScreen(),
+                        ),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,

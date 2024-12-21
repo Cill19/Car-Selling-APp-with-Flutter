@@ -1,11 +1,21 @@
+import 'package:carselling/provider/product_provider.dart';
 import 'package:carselling/state_util.dart';
 import 'package:carselling/core.dart';
 import 'package:carselling/screens/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:carselling/screens/main_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:carselling/screens/main_screen.dart'; // Tambahkan import untuk provider
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (_) => ProductProvider()), // Tambahkan ProductProvider
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(), // Ubah halaman awal ke MainScreen
+      home: LoginScreen(), // Tetapkan LoginScreen sebagai halaman awal
     );
   }
 }

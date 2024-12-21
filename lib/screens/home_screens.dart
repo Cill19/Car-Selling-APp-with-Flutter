@@ -1,33 +1,14 @@
+import 'package:carselling/provider/product_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:carselling/theme.dart';
 import 'package:carselling/screens/product_detail_screen.dart';
-import 'package:carselling/models/product.dart'; // Import model Product
 
 class HomeScreens extends StatelessWidget {
-  // Daftar produk menggunakan model Product
-  final List<Product> products = [
-    Product(
-      name: 'Tesla Model S',
-      description: 'Electric luxury sedan with top performance.',
-      price: '\$89,990',
-      image: 'assets/mobil1.png',
-    ),
-    Product(
-      name: 'Toyota Camry',
-      description: 'Reliable and efficient sedan for daily use.',
-      price: '\$24,970',
-      image: 'assets/mobil1.png',
-    ),
-    Product(
-      name: 'Tesla Model X',
-      description: 'A premium electric SUV with plenty of space.',
-      price: '\$120,000',
-      image: 'assets/mobil1.png',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -44,9 +25,9 @@ class HomeScreens extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: ListView.builder(
-            itemCount: products.length,
+            itemCount: productProvider.products.length,
             itemBuilder: (context, index) {
-              final product = products[index];
+              final product = productProvider.products[index];
               return Card(
                 margin: const EdgeInsets.only(bottom: 16),
                 shape: RoundedRectangleBorder(
@@ -85,7 +66,7 @@ class HomeScreens extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        product.price,
+                        '\$${product.price.toString()}',
                         style: poppinsTextStyle.copyWith(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -97,16 +78,7 @@ class HomeScreens extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerRight,
                         child: ElevatedButton(
-                          onPressed: () {
-                            // Navigasi ke halaman detail
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ProductDetailScreen(product: product),
-                              ),
-                            );
-                          },
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
                             shape: RoundedRectangleBorder(
